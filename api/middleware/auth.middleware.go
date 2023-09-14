@@ -3,11 +3,14 @@ package middleware
 import (
 	"errors"
 	"net/http"
+	models "products-service/api/models/entities"
 	"products-service/config"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
@@ -41,8 +44,26 @@ func AuthMiddleware() gin.HandlerFunc {
 				c.Abort()
 				return
 			}
+
+			db := c.MustGet("db").(*gorm.DB)
+			var user models.User
+			if err := db.First(&user, uint(userID)).Error; err != nil {
+				c.JSON(http.StatusUnauthorized, "User not found")
+				c.Abort()
+				return
+			}
+
+			// expirado?
+			exp, ok := claims["ExpiresAt"].(float64)
+			if !ok || time.Unix(int64(exp), 0).Before(time.Now()) {
+				c.JSON(http.StatusUnauthorized, "Token has expired")
+				c.Abort()
+				return
+			}
+
 			c.Set("userID", uint(userID))
 			c.Set("username", claims["username"])
+			c.Set("tokenExpiresAt", exp)
 		} else {
 			c.JSON(http.StatusUnauthorized, "Invalid token")
 			c.Abort()
