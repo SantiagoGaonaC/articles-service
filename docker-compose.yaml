@@ -1,0 +1,27 @@
+#service postgresql
+version: "3.8"
+
+networks:
+  articles-service:
+    name: articles-service
+
+services:
+  articles-service:
+    container_name: articles-service
+    build: .
+    ports:
+      - 8080:8080
+    networks:
+      - articles-service
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: articles
+    ports:
+      - "5432:5432"
+    networks:
+      - articles-service
