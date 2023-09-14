@@ -1,4 +1,4 @@
-module articles-service
+module products-service
 
 go 1.20
 

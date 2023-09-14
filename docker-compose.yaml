@@ -2,17 +2,19 @@
 version: "3.8"
 
 networks:
-  articles-service:
-    name: articles-service
+  products-service:
+    name: products-service
 
 services:
-  articles-service:
-    container_name: articles-service
+  products-service:
+    container_name: products-service
     build: .
     ports:
       - 8080:8080
     networks:
-      - articles-service
+      - products-service
+    depends_on:
+      - postgresql
   postgresql:
     image: postgres:latest
     container_name: postgresql
@@ -20,8 +22,8 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: articles
+      POSTGRES_DB: products
     ports:
       - "5432:5432"
     networks:
-      - articles-service
+      - products-service

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"articles-service/api/models/database"
-	models "articles-service/api/models/entities"
-	"articles-service/api/routes"
 	"log"
+	"products-service/api/models/database"
+	models "products-service/api/models/entities"
+	"products-service/api/routes"
 )
 
 func main() {
@@ -14,9 +14,9 @@ func main() {
 	}
 
 	//crear las tablas si aún no existen:
-	db.AutoMigrate(&models.User{}, &models.Article{}, &models.Favorite{})
+	db.AutoMigrate(&models.User{}, &models.Product{}, &models.Favorite{})
 	log.Println("Tablas creadas")
 
-	r := routes.SetupRouter()
+	r := routes.SetupRouter(db)
 	log.Fatal(r.Run(":8080"))
 }

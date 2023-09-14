@@ -23,7 +23,7 @@ FROM alpine:3.18
 # Variables de entorno
 ENV JWT_SECRET="secret" \
     JWT_EXPITATION_DAYS=7 \
-    DATABASE_NAME="articles" \
+    DATABASE_NAME="products" \
     DATABASE_USER="postgres" \
     DATABASE_PASSWORD="postgres" \
     DATABASE_HOST="postgresql" \

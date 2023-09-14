@@ -1,25 +1,26 @@
 package models
 
 type User struct {
-	ID        uint   `gorm:"primarykey"`
-	Username  string `gorm:"unique;not null"`
-	Password  string `gorm:"not null"`
-	Favorites []Favorite
+	ID        uint       `gorm:"primarykey"`
+	Username  string     `gorm:"unique;not null"`
+	Password  string     `gorm:"not null"`
+	Favorites []Favorite `gorm:"foreignKey:UserID"`
 }
 
-type Article struct {
+type Product struct {
 	ID         uint   `gorm:"primarykey"`
 	Vendor     string `gorm:"not null"`
 	SellerName string `gorm:"not null"`
 	Rating     float32
 	ImageURL   string
-	Favorites  []Favorite
+	Favorites  []Favorite `gorm:"foreignKey:ProductID"`
 }
 
+// Products
 type Favorite struct {
 	ID        uint `gorm:"primarykey"`
 	UserID    uint
-	ArticleID uint
+	ProductID uint
 }
 
 type LoginRequest struct {
