@@ -8,12 +8,12 @@ type User struct {
 }
 
 type Product struct {
-	ID         uint   `gorm:"primarykey"`
-	Vendor     string `gorm:"not null"`
-	SellerName string `gorm:"not null"`
-	Rating     float32
-	ImageURL   string
-	Favorites  []Favorite `gorm:"foreignKey:ProductID"`
+	ID          uint   `gorm:"primarykey"`
+	Vendor      string `gorm:"not null"`
+	ProductName string `gorm:"not null"`
+	Rating      float32
+	ImageURL    string
+	Favorites   []Favorite `gorm:"foreignKey:ProductID"`
 }
 
 // Products
@@ -29,7 +29,9 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	ID       uint   `json:"id"`
-	Username string `json:"username"`
-	Token    string `json:"token"`
+	ID         uint   `json:"id"`
+	Username   string `json:"username"`
+	StatusCode int    `json:"statusCode"`
+	Message    string `json:"message"`
+	Token      string `json:"token"`
 }

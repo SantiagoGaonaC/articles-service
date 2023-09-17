@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"net/http"
 	"products-service/api/helpers"
 	models "products-service/api/models/entities"
 	"products-service/api/repository"
@@ -19,8 +20,10 @@ func Authenticate(username, password string) (*models.LoginResponse, error) {
 	}
 
 	return &models.LoginResponse{
-		ID:       user.ID,
-		Username: user.Username,
-		Token:    tokenString,
+		ID:         user.ID,
+		Username:   user.Username,
+		Token:      tokenString,
+		StatusCode: http.StatusOK,
+		Message:    "Login successful",
 	}, nil
 }
