@@ -1,9 +1,9 @@
 package login
 
 import (
+	"net/http"
 	models "products-service/api/models/entities"
 	service "products-service/api/services"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )

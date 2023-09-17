@@ -19,9 +19,9 @@ func ValidateUserRepo(username, password string) (*models.User, error) {
 	return &user, nil
 }
 
-func GetAllProducts(db *gorm.DB) ([]models.Product, error) {
-	var products []models.Product
-	if err := db.Find(&products).Error; err != nil {
+func GetAllProducts(db *gorm.DB) ([]models.ProductResponse, error) {
+	var products []models.ProductResponse
+	if err := db.Model(&models.Product{}).Select("id, vendor, product_name, rating, image_url").Find(&products).Error; err != nil {
 		return nil, err
 	}
 	return products, nil
@@ -58,8 +58,8 @@ func RemoveFavorite(db *gorm.DB, userID, productID uint) error {
 	return nil
 }
 
-func GetFavoritesByUserID(db *gorm.DB, userID uint) ([]models.Product, error) {
-	var products []models.Product
+func GetFavoritesByUserID(db *gorm.DB, userID uint) ([]models.ProductResponse, error) {
+	var products []models.ProductResponse
 	if err := db.Joins("JOIN favorites on favorites.product_id = products.id").
 		Where("favorites.user_id = ?", userID).
 		Find(&products).Error; err != nil {

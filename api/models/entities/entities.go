@@ -35,3 +35,15 @@ type LoginResponse struct {
 	Message    string `json:"message"`
 	Token      string `json:"token"`
 }
+
+type ProductResponse struct {
+	ID          uint    `json:"id"`
+	Vendor      string  `json:"vendor"`
+	ProductName string  `json:"productName"`
+	Rating      float32 `json:"rating"`
+	ImageURL    string  `json:"imageUrl"`
+}
+
+func (ProductResponse) TableName() string {
+	return "products"
+}
