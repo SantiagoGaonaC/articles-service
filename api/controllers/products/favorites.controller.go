@@ -42,7 +42,14 @@ func AddFavorite(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Added to favorites"})
+
+	favorites, err := service.GetFavoritesByUserID(db, uint(actualUserID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, favorites)
 }
 
 func RemoveFavorite(c *gin.Context) {
@@ -62,5 +69,11 @@ func RemoveFavorite(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Removed from favorites"})
+
+	favorites, err := service.GetFavoritesByUserID(db, uint(actualUserID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, favorites)
 }
